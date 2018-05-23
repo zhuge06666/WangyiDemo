@@ -18,7 +18,7 @@ public class MoviesModel implements IMoviesModel
 {
     @Override
     public void loadMovies(final String movie,final String type, final IOnLoadListener iOnLoadListener) {
-        RetrofitHelper retrofitHelper=new RetrofitHelper(Api.NEWS_HOST);
+        RetrofitHelper retrofitHelper=new RetrofitHelper(Api.MOVIES_HOST);
         retrofitHelper.getMovies(movie,type).enqueue(new Callback<MoviesBean>() {
             @Override
             public void onResponse(Call<MoviesBean> call, Response<MoviesBean> response) {

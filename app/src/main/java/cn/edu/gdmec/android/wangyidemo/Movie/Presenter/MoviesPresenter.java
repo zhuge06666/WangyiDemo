@@ -21,14 +21,14 @@ public class MoviesPresenter implements IMoviesPresenter,IOnLoadListener {
     @Override
     public void loadMovies(String movie, String type) {
      iMoviesView.showDialog();
-      iMoviesModel.loadMovies("movie","",this);
+      iMoviesModel.loadMovies(movie,type,this);
     }
 
     @Override
     public void success(MoviesBean moviesBean) {
     iMoviesView.hideDialog();
     if (moviesBean!=null){
-        iMoviesView.showNews(moviesBean);
+        iMoviesView.showMovies(moviesBean);
     }
     }
 

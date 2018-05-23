@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ import java.util.List;
  */
 
 public class MyFragmentAdapter extends FragmentPagerAdapter{
-    List<Fragment> fragments;
-    List<String> fragmentTitle;
+    private List<Fragment> fragments;
+    private List<String> fragmentTitle;
     public MyFragmentAdapter(FragmentManager fm,List<Fragment> fragments) {
         super(fm);
         this.fragments=fragments;
@@ -24,7 +25,6 @@ public class MyFragmentAdapter extends FragmentPagerAdapter{
         this.fragments=fragments;
         this.fragmentTitle=fragmentTitle;
     }
-
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
@@ -35,7 +35,6 @@ public class MyFragmentAdapter extends FragmentPagerAdapter{
         return fragments.size();
     }
 
-
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
@@ -43,10 +42,10 @@ public class MyFragmentAdapter extends FragmentPagerAdapter{
 
     @Override
     public CharSequence getPageTitle(int position) {
-      if (fragmentTitle!=null){
-          return fragmentTitle.get(position);
-      }else {
-          return "";
-      }
+        if (fragmentTitle!=null){
+            return fragmentTitle.get(position);
+        }else {
+            return "";
+        }
     }
 }

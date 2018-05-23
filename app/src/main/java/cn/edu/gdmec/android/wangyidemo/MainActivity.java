@@ -1,7 +1,10 @@
 package cn.edu.gdmec.android.wangyidemo;
 
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,26 +17,36 @@ import java.util.List;
 import cn.edu.gdmec.android.wangyidemo.Movie.FgMovieFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-  private List<Fragment> fragments;
-  private ViewPager viewPager;
-  private MyFragmentAdapter adapter;
-  private ImageView iv_title_news,iv_title_movie,iv_title_video;
-  private Toolbar toolbar;
+    private ImageView iv_title_news,iv_title_movie,iv_title_video;
+    private ViewPager vp;
+    private FragmentPagerAdapter adapter;
+    private List<Fragment> fragments;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewPager=findViewById(R.id.vp_content);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         iv_title_news=findViewById(R.id.iv_title_news);
         iv_title_movie=findViewById(R.id.iv_title_movie);
         iv_title_video=findViewById(R.id.iv_title_video);
         toolbar=findViewById(R.id.toolbars);
         iv_title_news.setSelected(true);
-        initData();
-        iv_title_news.setOnClickListener(this);
-        iv_title_movie.setOnClickListener(this);
-        iv_title_video.setOnClickListener(this);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        vp=findViewById(R.id.vp_content);
+
+        fragments=new ArrayList<Fragment>();
+        fragments.add(new FgNewsFragment());
+        fragments.add(new FgMovieFragment());
+        fragments.add(new FgVideoFragment());
+        adapter=new MyFragmentAdapter(getSupportFragmentManager(),fragments);
+        vp.setAdapter(adapter);
+        vp.setOffscreenPageLimit(2);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar=getSupportActionBar();
+        if (actionBar!=null){
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -41,9 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onPageSelected(int position) {
-
-                 viewPager.setCurrentItem(position);
-                 setSelect(position);
+                setSelect(position);
             }
 
             @Override
@@ -51,50 +62,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-    }
-    private void initData(){
-        fragments=new ArrayList<Fragment>();
-        fragments.add(new FgNewsFragment());
-        fragments.add(new FgMovieFragment());
-        fragments.add(new FgVideoFragment());
-        adapter=new MyFragmentAdapter(getSupportFragmentManager(),fragments);
-        viewPager.setAdapter(adapter);
+        iv_title_news.setOnClickListener(this);
+        iv_title_movie.setOnClickListener(this);
+        iv_title_video.setOnClickListener(this);
     }
     private void setSelect(int position){
-        viewPager.setCurrentItem(position);
-        iv_title_video.setSelected(false);
-        iv_title_movie.setSelected(false);
+        vp.setCurrentItem(position);
         iv_title_news.setSelected(false);
-        switch (position){
-            case 0:
-                iv_title_news.setSelected(true);
-                break;
-            case 1:
-                iv_title_movie.setSelected(true);
-                break;
-            case 2:
-                iv_title_video.setSelected(true);
-                break;
+        iv_title_movie.setSelected(false);
+        iv_title_video.setSelected(false);
+        if (position==0){
+            iv_title_news.setSelected(true);
+        }else if(position==1){
+            iv_title_movie.setSelected(true);
+        }else if(position==2){
+            iv_title_video.setSelected(true);
         }
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_title_news:
-                if (viewPager.getCurrentItem()!=0) {
-                    setSelect(0);
-                }
+                setSelect(0);
                 break;
             case R.id.iv_title_movie:
-                if (viewPager.getCurrentItem()!=1) {
-                    setSelect(1);
-                }
+                setSelect(1);
                 break;
             case R.id.iv_title_video:
-                if (viewPager.getCurrentItem()!=3) {
-                    setSelect(3);
-                }
+                setSelect(2);
                 break;
+            default:break;
         }
     }
 }
