@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.gdmec.android.wangyidemo.Movie.FgMovieFragment;
+import cn.edu.gdmec.android.wangyidemo.News.FgNewsFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private ImageView iv_title_news,iv_title_movie,iv_title_video;

@@ -1,7 +1,7 @@
 package cn.edu.gdmec.android.wangyidemo.News.Presenter;
 
 import cn.edu.gdmec.android.wangyidemo.Bean.NewsBean;
-import cn.edu.gdmec.android.wangyidemo.FgNewsFragment;
+import cn.edu.gdmec.android.wangyidemo.News.FgNewsFragment;
 import cn.edu.gdmec.android.wangyidemo.Http.Api;
 import cn.edu.gdmec.android.wangyidemo.News.Model.INewsModel;
 import cn.edu.gdmec.android.wangyidemo.News.Model.IOnLoadListener;
