@@ -8,7 +8,9 @@
         android:id="@+id/view_status"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:visibility="gone"></View>
+        android:visibility="gone">
+
+    </View>
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
