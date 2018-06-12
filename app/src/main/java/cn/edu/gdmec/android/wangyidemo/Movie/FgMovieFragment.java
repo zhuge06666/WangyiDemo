@@ -59,16 +59,17 @@ private ItemMovieTopAdapter movieTopAdapter;
     }
    @Override
    public void showMovies(final MoviesBean moviesBean) {
-        if (moviesBean.getTotal()==29){
-     movieOnAdapter.setData(moviesBean.getSubjects());
-     rv_movie_on.setLayoutManager(new LinearLayoutManager(getActivity()));
-     rv_movie_on.setAdapter(movieOnAdapter);}
-     else if(moviesBean.getTotal()==250){
+        if (moviesBean.getTotal()==250) {
             movieTopAdapter.setData(moviesBean.getSubjects());
             LinearLayoutManager mLayoutManager =
                     new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
             rv_movie_top.setLayoutManager(mLayoutManager);
             rv_movie_top.setAdapter(movieTopAdapter);
+        }
+     else {
+                movieOnAdapter.setData(moviesBean.getSubjects());
+                rv_movie_on.setLayoutManager(new LinearLayoutManager(getActivity()));
+                rv_movie_on.setAdapter(movieOnAdapter);
         }
    }
 

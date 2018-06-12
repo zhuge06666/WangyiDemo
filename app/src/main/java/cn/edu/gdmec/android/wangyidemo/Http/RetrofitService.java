@@ -2,8 +2,13 @@ package cn.edu.gdmec.android.wangyidemo.Http;
 
 import cn.edu.gdmec.android.wangyidemo.Bean.MoviesBean;
 import cn.edu.gdmec.android.wangyidemo.Bean.NewsBean;
+import cn.edu.gdmec.android.wangyidemo.Bean.TodayBean;
+import cn.edu.gdmec.android.wangyidemo.Bean.VideoUrlBean;
+import cn.edu.gdmec.android.wangyidemo.Bean.WeatherBean;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -18,6 +23,13 @@ public interface RetrofitService {
     @GET("v2/{movie}/{type}")
     Observable<MoviesBean> getMovies(@Path("movie") String movie,
                                      @Path("type") String type);
+    @GET("news/feed/v51/")
+    Observable<TodayBean> getToday(@Query("category") String category);
 
+    @GET
+    Observable<VideoUrlBean> getVideoUrl(@Url String url);
+    //http://wthrcdn.etouch.cn/weather_mini?citykey=101010100
+    @GET("weather_mini")
+    Observable<WeatherBean> getWeather(@Query("citykey") int cityid);
 }
 
