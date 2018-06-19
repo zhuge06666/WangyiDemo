@@ -9,4 +9,5 @@ import cn.edu.gdmec.android.wangyidemo.Bean.MoviesBean;
 public interface IOnLoadListener {
     void success(MoviesBean moviesBean);
     void fail(String error);
+    void loadMoreSuccess(MoviesBean moviesBean);
 }

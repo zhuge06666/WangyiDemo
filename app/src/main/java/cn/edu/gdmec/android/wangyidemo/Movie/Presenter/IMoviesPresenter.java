@@ -5,5 +5,5 @@ package cn.edu.gdmec.android.wangyidemo.Movie.Presenter;
  */
 
 public interface IMoviesPresenter {
-    void loadMovies(String movie, String type);
+    void loadMovies(String movie, String type,int start);
 }

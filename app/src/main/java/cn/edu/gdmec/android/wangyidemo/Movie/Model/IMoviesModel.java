@@ -5,5 +5,5 @@ package cn.edu.gdmec.android.wangyidemo.Movie.Model;
  */
 
 public interface IMoviesModel {
-    void loadMovies(String movie, String type, IOnLoadListener iOnLoadListener);
+    void loadMovies(String movie, String type,int start, IOnLoadListener iOnLoadListener);
 }

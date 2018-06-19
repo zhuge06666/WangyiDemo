@@ -31,13 +31,15 @@ private RecyclerView rv_movie_on;
 private ItemMovieOnAdapter movieOnAdapter;
 private RecyclerView rv_movie_top;
 private ItemMovieTopAdapter movieTopAdapter;
+LinearLayoutManager mLayoutManager;
+private int start=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fg_movie, null);
     }
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout=view.findViewById(R.id.srl_movie);
         swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#ffce3d3a"));
@@ -46,14 +48,24 @@ private ItemMovieTopAdapter movieTopAdapter;
         movieTopAdapter=new ItemMovieTopAdapter(getActivity());
         movieOnAdapter=new ItemMovieOnAdapter(getActivity());
         presenter=new MoviesPresenter(this);
-        presenter.loadMovies("movie","in_theaters");
-        presenter.loadMovies("movie","top250");
+        presenter.loadMovies("movie","in_theaters",start);
+        presenter.loadMovies("movie","top250",start);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
            @Override
            public void onRefresh() {
-              presenter.loadMovies("movie","in_theaters");
-              presenter.loadMovies("movie","top250");
+              presenter.loadMovies("movie","in_theaters",start);
+              presenter.loadMovies("movie","top250",start);
            }
+        });
+        rv_movie_on.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState==RecyclerView.SCROLL_STATE_IDLE&&(mLayoutManager.findLastVisibleItemPosition()+1)==mLayoutManager.getItemCount()){
+                    loadMore();
+                    Toast.makeText(getContext(),"daodi",Toast.LENGTH_LONG).show();
+                }
+            }
         });
 
     }
@@ -61,18 +73,29 @@ private ItemMovieTopAdapter movieTopAdapter;
    public void showMovies(final MoviesBean moviesBean) {
         if (moviesBean.getTotal()==250) {
             movieTopAdapter.setData(moviesBean.getSubjects());
-            LinearLayoutManager mLayoutManager =
+            mLayoutManager =
                     new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
             rv_movie_top.setLayoutManager(mLayoutManager);
             rv_movie_top.setAdapter(movieTopAdapter);
         }
      else {
                 movieOnAdapter.setData(moviesBean.getSubjects());
-                rv_movie_on.setLayoutManager(new LinearLayoutManager(getActivity()));
+                mLayoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+                rv_movie_on.setLayoutManager(mLayoutManager);
                 rv_movie_on.setAdapter(movieOnAdapter);
         }
    }
 
+    @Override
+    public void showMoreMovies(MoviesBean moviesBean) {
+         movieOnAdapter.addData(moviesBean.getSubjects());
+         movieOnAdapter.notifyDataSetChanged();
+    }
+
+    private void loadMore(){
+        start+=20;
+        presenter.loadMovies("movie","in_theaters",start);
+}
    @Override
     public void hideDialog() {
       swipeRefreshLayout.setRefreshing(false);
@@ -85,6 +108,7 @@ private ItemMovieTopAdapter movieTopAdapter;
 
     @Override
     public void showErrorMsg(String error) {
+        movieOnAdapter.notifyItemRemoved(movieOnAdapter.getItemCount());
         Toast.makeText(getContext(),"加载出错："+error.toString(),Toast.LENGTH_SHORT).show();
     }
 }

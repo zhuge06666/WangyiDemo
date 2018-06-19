@@ -9,4 +9,5 @@ import cn.edu.gdmec.android.wangyidemo.Bean.NewsBean;
 public interface IOnLoadListener {
     void success(NewsBean newsBean);
     void fail(String error);
+    void loadMoreSuccess(NewsBean newsBean);
 }

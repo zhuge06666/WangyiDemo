@@ -24,16 +24,19 @@ import cn.edu.gdmec.android.wangyidemo.Video.View.IVideoView;
 public class VideoPresenter implements IVideoPresenter,IVideoLoadListener{
     private IVideoModel iVideoModel;
     private IVideoView iVideoView;
+    private int shangla;
 
-    public VideoPresenter(IVideoView iVideoView) {
+    public VideoPresenter(IVideoView iVideoView,int i) {
         this.iVideoView = iVideoView;
         this.iVideoModel = new VideoModel();
+        shangla=i;
     }
 
     @Override
     public void loadVideo() {
-
-        iVideoView.showDialog();
+        if (shangla==0) {
+            iVideoView.showDialog();
+        }
         iVideoModel.loadVideo("video", this);
         iVideoModel.loadWeather();
     }

@@ -9,6 +9,7 @@ import cn.edu.gdmec.android.wangyidemo.Bean.NewsBean;
 
 public interface IMoviesView {
     void showMovies(MoviesBean moviesBean);
+    void showMoreMovies(MoviesBean moviesBean);
     void hideDialog();
     void showDialog();
     void showErrorMsg(String error);

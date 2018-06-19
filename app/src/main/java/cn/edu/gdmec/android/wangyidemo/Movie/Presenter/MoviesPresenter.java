@@ -18,11 +18,6 @@ public class MoviesPresenter implements IMoviesPresenter,IOnLoadListener {
         this.iMoviesView = iMoviesView;
         this.iMoviesModel =new MoviesModel();
     }
-    @Override
-    public void loadMovies(String movie, String type) {
-     iMoviesView.showDialog();
-      iMoviesModel.loadMovies(movie,type,this);
-    }
 
     @Override
     public void success(MoviesBean moviesBean) {
@@ -36,5 +31,18 @@ public class MoviesPresenter implements IMoviesPresenter,IOnLoadListener {
     public void fail(String error) {
    iMoviesView.hideDialog();
    iMoviesView.showErrorMsg(error);
+    }
+
+    @Override
+    public void loadMoreSuccess(MoviesBean moviesBean) {
+      iMoviesView.hideDialog();
+      iMoviesView.showMoreMovies(moviesBean);
+    }
+
+    @Override
+    public void loadMovies(String movie, String type,int start) {
+        if (start==0){
+        iMoviesView.showDialog();}
+        iMoviesModel.loadMovies(movie,type,start,this);
     }
 }
